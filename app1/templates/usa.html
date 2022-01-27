@@ -1,0 +1,851 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <title>USA Universities</title>
+   <!-- HTML5 Shim and Respond.js IE9 support of HTML5 elements and media queries -->
+   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+   <!--[if lt IE 9]>
+     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+     <![endif]-->
+
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+   <!-- Favicon icon -->
+   <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+   <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+   <!-- Google font-->
+   <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700" rel="stylesheet">
+
+   <!-- themify -->
+   <link rel="stylesheet" type="text/css" href="{% static 'icon/themify-icons/themify-icons.css' %}">
+
+   <!-- iconfont -->
+   <link rel="stylesheet" type="text/css" href="{% static 'icon/icofont/css/icofont.css' %}">
+
+   <!-- simple line icon -->
+   <link rel="stylesheet" type="text/css" href="{% static 'icon/simple-line-icons/css/simple-line-icons.css' %}">
+
+   <!-- Required Fremwork -->
+   <link rel="stylesheet" type="text/css" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}">
+
+   <!-- Chartlist chart css -->
+   <link rel="stylesheet" href="{% static 'plugins/chartist/dist/chartist.css' %}" type="text/css" media="all">
+
+   <!-- Weather css -->
+   <link href="{% static 'css/svg-weather.css' %}" rel="stylesheet">
+
+
+   <!-- Style.css -->
+   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+   <!-- Responsive.css-->
+   <link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}">
+
+</head>
+
+<body class="sidebar-mini fixed">
+   <div class="loader-bg">
+      <div class="loader-bar">
+      </div>
+   </div>
+   <div class="wrapper">
+      <!-- Navbar-->
+      <header class="main-header-top hidden-print">
+         <a href="home.html" class="logo">University Apply Site</a>
+         <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#!" data-toggle="offcanvas" class="sidebar-toggle"></a>
+            <ul class="top-nav lft-nav">
+               <li class="dropdown pc-rheader-submenu message-notification search-toggle">
+                  <a href="search" class="drop icon-circle txt-white">
+                     <i class="ti-search"></i>
+                  </a>
+               </li>
+            </ul>
+            <!-- search -->
+            <div class="top-nav lft-nav m-0">
+               <form action="{% url 'search' %}" method="post" class="form-inline top-nav lft-nav p-5">
+                  {% csrf_token %}
+                  <input class="form-control" style="font-family: Calibri" type="text" placeholder="Search..."
+                     id="query" name="query" />
+                  <button type="submit" class="btn btn-sm btn-outline-light"><i class="ti-search"></i></button>
+               </form>
+            </div>
+            <!-- search end -->
+
+            <!-- Navbar Right Menu-->
+            <div class="navbar-custom-menu f-right">
+               <ul class="top-nav mt-2">
+                  <!-- window screen -->
+                  <li class="pc-rheader-submenu">
+                     <a href="#!" class="drop icon-circle" onclick="javascript:toggleFullScreen()">
+                        <i class="icon-size-fullscreen"></i>
+                     </a>
+                  </li>
+                  <!-- Logout -->
+                  <li><a href="logout"><i class="icon-logout"></i>Logout</a></li>
+               </ul>
+            </div>
+         </nav>
+      </header>
+      <!-- Side-Nav-->
+      <aside class="main-sidebar hidden-print ">
+         <section class="sidebar" id="sidebar-scroll">
+            <!-- Sidebar Menu-->
+            <ul class="sidebar-menu">
+               <li class="nav-level">---) Navigation</li>
+               <li class="treeview">
+                  <a class="waves-effect waves-dark" href="home">
+                     <i class="icon-speedometer"></i><span>Home</span>
+                  </a>
+               </li>
+               <li class="active treeview">
+                  <a class="waves-effect waves-dark" href="usa">
+                     <i class="icon-speedometer"></i><span>USA</span>
+                  </a>
+               </li>
+               <li class="nav-level">---) Components</li>
+               <li class="treeview"><a class="waves-effect waves-dark" href="#!"><i class="icon-briefcase"></i><span>USA
+                        Universities List</span><i class="icon-arrow-down"></i></a>
+                  <ul class="treeview-menu">
+                     <li><a class="waves-effect waves-dark">Prinston University</a></li>
+                     <li><a class="waves-effect waves-dark">Columbia University</a></li>
+                     <li><a class="waves-effect waves-dark">Harvard University</a></li>
+                     <li><a class="waves-effect waves-dark">Yale University</a></li>
+                     <li><a class="waves-effect waves-dark">Stanford University</a></li>
+                     <li><a class="waves-effect waves-dark">University of Pennsylvania</a></li>
+                     <li><a class="waves-effect waves-dark">Duke University</a></li>
+                     <li><a class="waves-effect waves-dark">John Hopkins University</a></li>
+                     <li><a class="waves-effect waves-dark">Northwestern University</a></li>
+                     <li><a class="waves-effect waves-dark">Cornell University</a></li>
+                     <li><a class="waves-effect waves-dark">New York University</a></li>
+                     <li><a class="waves-effect waves-dark">University of Texas at Austin</a></li>
+                  </ul>
+               </li>
+            </ul>
+         </section>
+      </aside>
+
+
+      <div class="content-wrapper">
+         <!-- Container-fluid starts -->
+         <!-- Main content starts -->
+         {% if res %}
+         <div class="card-body">
+            <table class="table">
+               <thead>
+                  <tr class="bg-primary">
+                     <th scope="col">#</th>
+                     <th scope="col">Name</th>
+                     <th scope="col">Choices</th>
+                     <th scope="col">Graduated from</th>
+                     <th scope="col">CGPA</th>
+                     <th scope="col">IELTS</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for i in res %}
+                  <tr>
+                     <th scope="row">{{forloop.counter}}</th>
+                     <td>{{i.name.capitalize}}</td>
+                     <td>{{i.choice}}</td>
+                     <td>{{i.university}}</td>
+                     <td>{{i.cgpa}}</td>
+                     <td>{{i.ielts}}</td>
+                     {% comment %} <td> <a style="color:white" href="{% url 'sell' item.id %}"
+                           class="btn btn-primary">Sell</a> {% endcomment %}
+                     </td>
+                  </tr>
+                  {% endfor %}
+               </tbody>
+            </table>
+         </div>
+
+         {% else %}
+         <div class="container-fluid">
+            <div class="row">
+               <div class="main-header">
+
+                  <h4><b>USA Universities</b></h4>
+               </div>
+            </div>
+
+            <!-- //////////////////////////////////////////////////////////// -->
+            <!-- 1-row 3-block start -->
+            <div class="row">
+
+               <div class="col-lg-4">
+                  <div class="card">
+                     <form action="{% url " form" %}" method="GET">
+                        <div class="user-block-2" style="background-image: url('{% static "
+                           images/background/princeton-bg.png" %}');">
+                           <h2 style="font-size: 250%;">Princeton<br>University</h2>
+                           <input type="hidden" name="PU" Value="Prinston Unniversity">
+                        </div>
+                        <div class="card-block">
+                           <div class="user-block-2-activities">
+                              <div class="user-block-2-active">
+                                 <i class="icofont icofont-picture"></i> In National Universities
+                                 <label class="label label-primary">#1</label>
+                              </div>
+                           </div>
+                           <div class="user-block-2-activities">
+                              <div class="user-block-2-active">
+                                 <i class="icofont icofont-ui-user"></i> Tuition Fees
+                                 <label class="label label-primary">$56,010</label>
+                              </div>
+                           </div>
+                           <div class="user-block-2-activities">
+                              <div class="user-block-2-active">
+                                 <i class="icofont icofont-users"></i> Acceptance Rate
+                                 <label class="label label-primary">6%</label>
+                              </div>
+                           </div>
+                           <div class="user-block-2-activities">
+                              <div class="user-block-2-active">
+                                 <i class="icofont icofont-clock-time"></i> Graduation Rate
+                                 <label class="label label-primary">90%</label>
+                              </div>
+                           </div>
+                           <div class="user-block-2-activities">
+                              <div class="user-block-2-active">
+                                 <i class="icofont icofont-ui-user"></i> Application Fees
+                                 <label class="label label-primary">$70</label>
+                              </div>
+                           </div>
+                           <div class="text-center">
+                              <button type="submit"
+                                 class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                                 Apply Now
+                              </button>
+                           </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+
+            <div class="col-lg-4">
+               <div class="card">
+                  <form action="{% url " form" %}" method="GET">
+                     <div class="user-block-2" style="background-image: url('{% static "
+                        images/background/columbia-bg.png" %}');">
+                        <h2 style="font-size: 250%;">Columbia<br>University</h2>
+                        <input type="hidden" name="PU" Value="Columbia Unniversity">
+
+                     </div>
+                     <div class="card-block">
+                        <div class="user-block-2-activities">
+                           <div class="user-block-2-active">
+                              <i class="icofont icofont-picture"></i> In National Universities (tie)
+                              <label class="label label-primary">#2</label>
+                           </div>
+                        </div>
+                        <div class="user-block-2-activities">
+                           <div class="user-block-2-active">
+                              <i class="icofont icofont-ui-user"></i> Tuition Fees
+                              <label class="label label-primary">$63,530</label>
+                           </div>
+                        </div>
+                        <div class="user-block-2-activities">
+                           <div class="user-block-2-active">
+                              <i class="icofont icofont-users"></i> Acceptance Rate
+                              <label class="label label-primary">6%</label>
+                           </div>
+                        </div>
+                        <div class="user-block-2-activities">
+                           <div class="user-block-2-active">
+                              <i class="icofont icofont-clock-time"></i> Graduation Rate
+                              <label class="label label-primary">86%</label>
+                           </div>
+                        </div>
+                        <div class="user-block-2-activities">
+                           <div class="user-block-2-active">
+                              <i class="icofont icofont-ui-user"></i> Application Fees
+                              <label class="label label-primary">$85</label>
+                           </div>
+                        </div>
+                        <div class="text-center">
+                           <button type="submit" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                              Apply Now
+                           </button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/harvard-bg.png"
+               %}');">
+               <h2 style="font-size: 250%;">Harvard<br>University</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities (tie)
+                     <label class="label label-primary">#2</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$55,587</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">5%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">86%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$75</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+   </div>
+   <!-- 1-row 3-block end -->
+   <!-- //////////////////////////////////////////////////////////// -->
+
+
+   <!-- //////////////////////////////////////////////////////////// -->
+   <!-- 2-row 3-block start -->
+   <div class="row">
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/yale-bg.png" %}');">
+               <h2 style="font-size: 250%;">Yale<br>University</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities
+                     <label class="label label-primary">#5</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$59,950</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">7%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">84%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$80</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/stanford-bg.png"
+               %}');">
+               <h2 style="font-size: 250%;">Stanford<br>University</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities (tie)
+                     <label class="label label-primary">#6</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$56,169</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">5%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">74%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$90</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/pennsylvania-bg.png"
+               %}');">
+               <h2 style="font-size: 250%;">University of<br>Pennsylvania</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities
+                     <label class="label label-primary">#8</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$61,710</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">9%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">86%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$75</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+   </div>
+   <!-- 2-row 3-block start -->
+   <!-- //////////////////////////////////////////////////////////// -->
+
+
+   <!-- //////////////////////////////////////////////////////////// -->
+   <!-- 3-row 3-block start -->
+   <div class="row">
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/duke-bg.png" %}');">
+               <h2 style="font-size: 250%;">Duke<br>University</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities (tie)
+                     <label class="label label-primary">#9</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$60,489</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">8%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">90%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$85</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/jhu-bg.png" %}');">
+               <h2 style="font-size: 250%;">John Hopkins<br>University</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities (tie)
+                     <label class="label label-primary">#9</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$58,720</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">9%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">89%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$70</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/northwestern-bg.png"
+               %}');">
+               <h2 style="font-size: 250%;">Northwestern<br>University</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities (tie)
+                     <label class="label label-primary">#9</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$60,984</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">9%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">85%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$75</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+   </div>
+   <!-- 3-row 3-block start -->
+   <!-- //////////////////////////////////////////////////////////// -->
+
+
+   <!-- //////////////////////////////////////////////////////////// -->
+   <!-- 4-row 3-block start -->
+   <div class="row">
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/cornell-bg.png"
+               %}');">
+               <h2 style="font-size: 250%;">Cornell<br>University</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities (tie)
+                     <label class="label label-primary">#17</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$61,015</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">11%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">89%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$80</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/newyork-bg.png"
+               %}');">
+               <h2 style="font-size: 250%;">New York<br>University</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities (tie)
+                     <label class="label label-primary">#28</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$56,500</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">21%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">79%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$80</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="user-block-2" style="background-image: url('{% static " images/background/texas-bg.png" %}');">
+               <h2 style="font-size: 250%;">University of Texas<br>at Austin</h2>
+            </div>
+            <div class="card-block">
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-picture"></i> In National Universities (tie)
+                     <label class="label label-primary">#38</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Tuition Fees
+                     <label class="label label-primary">$40,032</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-users"></i> Acceptance Rate
+                     <label class="label label-primary">32%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-clock-time"></i> Graduation Rate
+                     <label class="label label-primary">70%</label>
+                  </div>
+               </div>
+               <div class="user-block-2-activities">
+                  <div class="user-block-2-active">
+                     <i class="icofont icofont-ui-user"></i> Application Fees
+                     <label class="label label-primary">$75</label>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <a href="form">
+                     <button type="button" class="btn btn-warning waves-effect waves-light text-uppercase m-r-30">
+                        Apply Now
+                     </button>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+   </div>
+   <!-- 4-row 3-block start -->
+   <!-- //////////////////////////////////////////////////////////// -->
+
+
+   </div>
+
+   </div>
+   <!-- Main content ends -->
+   <!-- Container-fluid ends -->
+   </div>
+   </div>
+
+
+   <!-- Required Jqurey -->
+   <script src="{% static '/plugins/Jquery/dist/jquery.min.js' %}"></script>
+   <script src="{% static '/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+   <script src="{% static '/plugins/tether/dist/js/tether.min.js' %}"></script>
+
+   <!-- Required Fremwork -->
+   <script src="{% static '/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+
+   <!-- Scrollbar JS-->
+   <script src="{% static '/plugins/jquery-slimscroll/jquery.slimscroll.js' %}"></script>
+   <script src="{% static '/plugins/jquery.nicescroll/jquery.nicescroll.min.js' %}"></script>
+
+   <!--classic JS-->
+   <script src="{% static '/plugins/classie/classie.js' %}"></script>
+
+   <!-- notification -->
+   <script src="{% static '/plugins/notification/js/bootstrap-growl.min.js' %}"></script>
+
+   <!-- Sparkline charts -->
+   <script src="{% static '/plugins/jquery-sparkline/dist/jquery.sparkline.js' %}"></script>
+
+   <!-- Counter js  -->
+   <script src="{% static '/plugins/waypoints/jquery.waypoints.min.js' %}"></script>
+   <script src="{% static '/plugins/countdown/js/jquery.counterup.js' %}"></script>
+
+   <!-- Echart js -->
+   <script src="{% static '/plugins/charts/echarts/js/echarts-all.js' %}"></script>
+
+   <script src="https://code.highcharts.com/highcharts.js"></script>
+   <script src="https://code.highcharts.com/modules/exporting.js"></script>
+   <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+
+   <!-- custom js -->
+   <script type="text/javascript" src="{% static '/js/main.min.js' %}"></script>
+   <script type="text/javascript" src="{% static '/pages/dashboard.js' %}"></script>
+   <script type="text/javascript" src="{% static '/pages/elements.js' %}"></script>
+   <script src="{% static '/js/menu.min.js' %}"></script>
+   <script>
+      var $window = $(window);
+      var nav = $('.fixed-button');
+      $window.scroll(function () {
+         if ($window.scrollTop() >= 200) {
+            nav.addClass('active');
+         }
+         else {
+            nav.removeClass('active');
+         }
+      });
+   </script>
+
+</body>
+
+</html>

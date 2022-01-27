@@ -1,0 +1,11 @@
+.design {
+    width: 600px;
+    border: none;
+    height: 50px;
+    font-size: 120%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+}
